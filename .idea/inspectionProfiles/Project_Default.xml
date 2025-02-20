@@ -1,0 +1,62 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <Languages>
+        <language minSize="55" name="Python" />
+      </Languages>
+    </inspection_tool>
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="4">
+            <item index="0" class="java.lang.String" itemvalue="aiohttp" />
+            <item index="1" class="java.lang.String" itemvalue="requests" />
+            <item index="2" class="java.lang.String" itemvalue="numpy" />
+            <item index="3" class="java.lang.String" itemvalue="redis" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="pyyjj" />
+          <option value="strategies.market_maker.str_run.kungfu" />
+          <option value="strategies.market_maker.str_run.Source" />
+          <option value="strategies.market_maker.str_run.Exchange" />
+          <option value="strategies.market_maker.str_run.InstrumentType" />
+          <option value="strategies.market_maker.str_run.Side" />
+          <option value="strategies.market_maker.str_run.OrderType" />
+          <option value="strategies.market_maker.kungfu" />
+          <option value="strategies.market_maker.Side" />
+          <option value="strategies.market_maker.mm.kungfu" />
+          <option value="strategies.market_maker.mm.InstrumentType" />
+          <option value="strategies.market_maker.mm.Exchange" />
+          <option value="strategies.market_maker.mm.Side" />
+          <option value="strategies.market_maker.mm.OrderType" />
+          <option value="strategies.market_maker.an.kungfu" />
+          <option value="strategies.market_maker.rw.kungfu" />
+          <option value="strategies.market_maker.bt.kungfu" />
+          <option value="strategies.market_maker.pywingchun" />
+          <option value="strategies.market_maker.Direction" />
+          <option value="strategies.market_maker.soms.Exchange" />
+          <option value="strategies.market_maker.soms.pywingchun" />
+          <option value="strategies.market_maker.soms.kungfu" />
+          <option value="strategies.market_maker.bt_new.Exchange" />
+          <option value="strategies.market_maker.bt_new.InstrumentType" />
+          <option value="strategies.market_maker.bt_new.pywingchun" />
+          <option value="strategies.market_maker.mm_new.kungfu" />
+          <option value="strategies.market_maker.pms.pywingchun" />
+          <option value="strategies.market_maker.pms.Exchange" />
+          <option value="strategies.market_maker.pms.kungfu" />
+          <option value="strategies.market_maker.mm_new.Source" />
+          <option value="strategies.market_maker.str_run_perp.Exchange" />
+          <option value="strategies.market_maker.str_run_perp.Source" />
+          <option value="strategies.market_maker.rms.risk_center.*" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="SqlNoDataSourceInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+  </profile>
+</component>
