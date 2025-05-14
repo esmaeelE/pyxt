@@ -767,3 +767,15 @@ class Perp:
                                    params=params)
         code, success, error = self._fetch(method="POST", url=url, headers=header, data=params, timeout=self.timeout)
         return code, success, error
+
+    def open_account(self):
+        """
+        """
+        params = {}
+        bodymod = "application/json"
+        path = "/future/user" + '/v1/account/open'
+        url = self.host + path
+        header = self._create_sign(self.__access_key, self.__secret_key, path=path, bodymod=bodymod,
+                                   params=params)
+        code, success, error = self._fetch(method="POST", url=url, headers=header, timeout=self.timeout)
+        return code, success, error

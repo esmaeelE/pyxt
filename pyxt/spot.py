@@ -21,13 +21,6 @@ curl --location --request POST 'http://sapi.xt-dev.com/spot/v4/order' \
 
 
 class Spot:
-    """
-        xt api接口
-        异常处理：
-            未获得内容，返回None
-            获得内容返回状态码非200，
-    """
-
     # def __init__(self, host, account=None, user_id=None, account_id=None, access_key=None, secret_key=None):
     def __init__(self, host, user_id=None, access_key=None, secret_key=None):
         self.host = host
@@ -38,7 +31,7 @@ class Spot:
         self.secret_key = secret_key
         # self.anonymous = not(account and account_id and access_key and secret_key)
         self.anonymous = not (access_key and secret_key)
-        self.timeout = 10  # 默认超时时间
+        self.timeout = 10
         self.headers = {
             "Content-type": "application/x-www-form-urlencoded",
             'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:53.0) Gecko/20100101 Firefox/53.0'
@@ -56,7 +49,7 @@ class Spot:
         data = kwargs.pop('data', None) or kwargs.pop('json', None)
         query_str = '' if query is None else '&'.join(
             [f"{key}={json.dumps(query[key]) if type(query[key]) in [dict, list] else query[key]}" for key in
-             sorted(query)])  # 没有接口同时使用query和body
+             sorted(query)])
         body_str = json.dumps(data) if data is not None else ''
         y = '#' + '#'.join([i for i in [method, path_str, query_str, body_str] if i])
         x = '&'.join([f"{key}={headers[key]}" for key in sorted(headers)])
@@ -78,7 +71,7 @@ class Spot:
 
     def auth_req(self, url, method='GET', **params):  # 登录签名才可请求的接口
         if self.anonymous:
-            raise XtCodeError('未正确提供xt登录账号')
+            raise XtCodeError('need xt api key')
         headers = self.gen_auth_header(url, method, **params)
         kwargs = {'headers': headers, 'timeout': self.timeout}
         kwargs.update(params)
@@ -691,7 +684,6 @@ class XtHttpError(Exception):
 
     def init(self):
         """
-            提取一些常见异常，设置错误消息提示，便于程序员处理
         :return:
         """
         import traceback
@@ -699,7 +691,7 @@ class XtHttpError(Exception):
 
     @property
     def desc(self):
-        return f'XT服务异常:str{self.exception}'
+        return f'XT error:str{self.exception}'
 
     @property
     def err_str(self):
@@ -719,44 +711,42 @@ class XtHttpError(Exception):
         return '\n'.join(res)
 
     def __str__(self):
-        return f'XT接口异常:{self.info}\n详细数据:{self.err_str}\n异常信息:\n{self.desc}'
+        return f'XT error:{self.info}\ndata:{self.err_str}\ninfo:\n{self.desc}'
 
 
 XT_MES_ERRORS = {
-    '0': '客户端异常',
-    'SUCCESS': '成功',
-    'FAILURE': '失败',
-    'not exist': '目标不存在',
-    'AUTH_001': '缺少请求头 xt-validate-appkey',
-    'AUTH_002': '缺少请求头 xt-validate-timestamp',
-    'AUTH_003': '缺少请求头 xt-validate-recvwindow',
-    'AUTH_004': '错误的请求头 xt-validate-recvwindow',
-    'AUTH_005': '缺少请求头 xt-validate-algorithms',
-    'AUTH_006': '错误的请求头 xt-validate-algorithms',
-    'AUTH_007': '缺少请求头 xt-validate-signature',
-    'AUTH_101': 'ApiKey不存在',
-    'AUTH_102': 'ApiKey未激活',
-    'AUTH_103': '签名错误',
-    'AUTH_104': '非绑定IP请求',
-    'AUTH_105': '报文过时',
-    'AUTH_106': '超出apikey权限',
-    'ORDER_001': '平台拒单',
-    'ORDER_002': '资金不足',
-    'ORDER_003': '交易对暂停交易',
-    'ORDER_004': '禁止交易',
-    'ORDER_005': '订单不存在',
-    'ORDER_F0101': '触发价格过滤器-最小值',
-    'ORDER_F0102': '触发价格过滤器-最大值',
-    'ORDER_F0103': '触发价格过滤器-步进值',
-    'ORDER_F0201': '触发数量过滤器-最小值',
-    'ORDER_F0202': '触发数量过滤器-最大值',
-    'ORDER_F0203': '触发数量过滤器-步进值',
-    'ORDER_F0301': '触发金额过滤器-最小值',
-    'ORDER_F0401': '触发开盘保护滤器',
-    'ORDER_F0501': '触发限价保护滤器',
-    'ORDER_F0601': '触发市价保护滤器',
-    'ORDER_F0701': '过多的未完成订单',
-    'ORDER_F0801': '过多未完成计划委托',
+    '0': 'error',
+    'SUCCESS': 'success',
+    'FAILURE': 'fail',
+    'not exist': 'fail',
+    'AUTH_001': 'missing request header validate-appkey',
+    'AUTH_002': 'missing request header validate-timestamp',
+    'AUTH_003': 'missing request header validate-recvwindow',
+    'AUTH_004': 'bad request header validate-recvwindow',
+    'AUTH_005': 'missing request header validate-algorithms',
+    'AUTH_006': 'bad request header validate-algorithms',
+    'AUTH_007': 'missing request header validate-signature',
+    'AUTH_101': 'ApiKey does not exist',
+    'AUTH_102': 'ApiKey is not activated',
+    'AUTH_103': 'Signature error',
+    'AUTH_104': 'Unbound IP request',
+    'AUTH_105': 'outdated message',
+    'AUTH_106': 'Exceeded apikey permission',
+    'ORDER_001': 'Platform rejection',
+    'ORDER_002': 'insufficient funds',
+    'ORDER_003': 'Trading Pair Suspended',
+    'ORDER_004': 'no transaction',
+    'ORDER_005': 'Order not exist',
+    'ORDER_F0101': 'Trigger Price Filter - Min',
+    'ORDER_F0102': 'Trigger Price Filter - Max',
+    'ORDER_F0103': 'Trigger Price Filter - Step Value',
+    'ORDER_F0201': 'Trigger Quantity Filter - Min',
+    'ORDER_F0202': 'Trigger Quantity Filter - Max',
+    'ORDER_F0203': 'rigger Quantity Filter - Step Value',
+    'ORDER_F0301': 'Trigger QUOTE_QTY Filter - Min Value',
+    'ORDER_F0401': 'Trigger PROTECTION_ONLINE Filter or PROTECTION_LIMIT Filter',
+    'ORDER_F0501': 'Trigger PROTECTION_LIMIT Filter - Buy Max Deviation',
+    'ORDER_F0601': 'Trigger PROTECTION_MARKET Filter',
 }
 
 
