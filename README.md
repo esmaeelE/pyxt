@@ -58,3 +58,8 @@ You can find more examples in the project folder /examples/
 
 ## Contact
 You can reach out for support on the [XTAPI Telegram](https://t.me/XT_api) group chat.
+
+
+https://github.com/xt-com/xt-api/
+
+
